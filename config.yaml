@@ -1,0 +1,53 @@
+# All pipeline knobs. Override any field on the CLI, e.g.:
+#   python -m finetune.cli all --set train.epochs=1 --set data.max_train_samples=1000
+
+seed: 42
+output_dir: reports          # where json/csv/md artifacts are written
+checkpoint_dir: checkpoints  # where model checkpoints are written
+
+data:
+  dataset_name: dair-ai/emotion
+  dataset_config: split       # the standard train/validation/test split config
+  text_column: text
+  label_column: label
+  # Subsample for laptop-speed runs. Set to null to use the full split.
+  max_train_samples: 2000
+  max_eval_samples: 500
+  max_test_samples: 1000
+  max_length: 128             # token truncation length
+  use_prompt_formatting: true # wrap raw text in an instruction prompt
+
+model:
+  name: distilbert-base-uncased
+
+train:
+  epochs: 3
+  batch_size: 16
+  eval_batch_size: 32
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.06
+  logging_steps: 20
+  # "epoch" evaluates/saves once per epoch; keeps train vs val loss comparable
+  eval_strategy: epoch
+  save_strategy: epoch
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  greater_is_better: false
+
+eval:
+  calibration_bins: 15        # bins for ECE / reliability diagram
+
+wandb:
+  mode: disabled              # online | offline | disabled
+  project: llm-finetuning-pipeline
+  run_name: null              # null -> auto
+
+# Optional zero-shot Claude baseline (requires an Anthropic API key / `ant auth login`).
+# A reference LLM baseline to compare the fine-tuned model against. Skipped
+# automatically if credentials/SDK are unavailable.
+claude:
+  model: claude-opus-4-8      # default per Anthropic guidance; set claude-haiku-4-5 for cheaper runs
+  max_samples: 200            # cap Claude calls to bound cost; null = full test set
+  use_batch: true             # Batch API (50% cheaper) vs synchronous per-example
+  max_tokens: 64              # classification output is tiny

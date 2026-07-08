@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Artifacts
+checkpoints/
+wandb/
+reports/*
+!reports/.gitkeep
+
+# HF / datasets caches (usually in ~/.cache, but just in case)
+.cache/
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+.claude/
