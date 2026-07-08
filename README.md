@@ -93,19 +93,21 @@ python -m finetune.cli all --set data.max_train_samples=1000 --set train.epochs=
 
 ---
 
-## 4. Results table template
+## 4. Results
 
-Fill this in from `reports/summary.csv` after a run (do **not** invent numbers):
+Measured locally with the default config (`2,000` training examples, `3` epochs).
 
 | Run | Model | Train N | Epochs | Test Acc | Macro F1 | Test Loss | ECE (pre-T) | ECE (post-T) | Temp T |
 |-----|-------|---------|--------|----------|----------|-----------|-------------|--------------|--------|
-| baseline (majority) | — | — | — |  |  |  |  |  |  |
-| baseline (untrained head) | distilbert | — | 0 |  |  |  |  |  |  |
-| zero-shot Claude (optional) | claude-opus-4-8 | 0 | 0 |  |  |  |  |  |  |
-| ft-run-1 | distilbert | 2000 | 3 |  |  |  |  |  |  |
+| baseline (majority) | — | 0 | 0 | 0.359 | 0.0881 | — | — | — | — |
+| baseline (untrained head) | distilbert-base-uncased | 0 | 0 | 0.121 | 0.0654 | 1.7971 | 0.0737 | — | — |
+| fine-tuned | distilbert-base-uncased | 2000 | 3 | 0.783 | 0.5344 | 0.6742 | 0.0968 | 0.0373 | 0.7894 |
 
-**Overfitting note (from `training_log.csv`):** _describe whether eval loss started rising
-while train loss kept falling, and at which epoch._
+**Fine-tuning lift over untrained head:** 0.1210 → 0.7830 (+0.6620 absolute accuracy).
+
+**Overfitting note (from `training_log.csv`):** Eval loss bottomed at epoch 3
+(0.7677) and did not rise afterward, so there was no clear overfitting signal in
+this run.
 
 ---
 

@@ -1,0 +1,20 @@
+{
+  "majority": {
+    "strategy": "predict-majority (joy)",
+    "accuracy": 0.359,
+    "macro_f1": 0.08805494235957811,
+    "weighted_f1": 0.18967034584253126,
+    "n": 1000
+  },
+  "untrained_head": {
+    "accuracy": 0.121,
+    "macro_f1": 0.06536528743613212,
+    "weighted_f1": 0.04905845160068593,
+    "loss_cross_entropy": 1.7970554993102252,
+    "brier_score": 0.8359309967591959,
+    "ece": 0.07366069605190516,
+    "mce": 0.16002524195533235,
+    "n": 1000,
+    "strategy": "pretrained-backbone + untrained-head"
+  }
+}

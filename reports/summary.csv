@@ -1,0 +1,4 @@
+run,model,train_n,epochs,test_acc,macro_f1,test_loss,ece_pre,ece_post,temperature
+baseline-majority,-,0,0,0.359,0.08805494235957811,,,,
+baseline-untrained-head,distilbert-base-uncased,0,0,0.121,0.06536528743613212,1.7970554993102252,0.07366069605190516,,
+fine-tuned,distilbert-base-uncased,2000,3,0.783,0.534377006878148,0.6741509486727989,0.09676805254794918,0.037251371709861966,0.789430094587265
